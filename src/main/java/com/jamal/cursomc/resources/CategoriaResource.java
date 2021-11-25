@@ -1,11 +1,10 @@
 package com.jamal.cursomc.resources;
 
+import com.jamal.cursomc.domain.Categoria;
+import com.jamal.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.jamal.cursomc.domain.Categoria;
-import com.jamal.cursomc.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -36,12 +35,20 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
 		// Seta o ID do parametro, apenas para garantir que está sendo atualizado o mesmo objeto
 		obj.setId(id);
 
 		obj = service.update(obj);
+
+		// Retorna um response vazio
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
 
 		// Retorna um response vazio
 		return ResponseEntity.noContent().build();

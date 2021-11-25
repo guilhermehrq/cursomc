@@ -1,13 +1,14 @@
 package com.jamal.cursomc.services;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.jamal.cursomc.domain.Categoria;
 import com.jamal.cursomc.repositories.CategoriaRepository;
+import com.jamal.cursomc.services.exceptions.DataIntegrityException;
 import com.jamal.cursomc.services.exceptions.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -32,5 +33,16 @@ public class CategoriaService {
 
 		// Mesma função do "insert", mas agora com um ID válido
 		return repo.save(obj);
+	}
+
+	public void delete(Integer id) {
+		// Validando se o objeto a ser deletado realmente existe
+		find(id);
+
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
+		}
 	}
 }
