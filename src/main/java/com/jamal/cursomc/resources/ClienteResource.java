@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.jamal.cursomc.domain.Cliente;
 import com.jamal.cursomc.services.ClienteService;
 
 import javax.validation.Valid;

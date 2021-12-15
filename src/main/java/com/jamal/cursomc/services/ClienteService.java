@@ -3,7 +3,6 @@ package com.jamal.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
-import ch.qos.logback.core.net.server.Client;
 import com.jamal.cursomc.domain.Cliente;
 import com.jamal.cursomc.dto.ClienteDTO;
 import com.jamal.cursomc.services.exceptions.DataIntegrityException;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.jamal.cursomc.domain.Cliente;
 import com.jamal.cursomc.repositories.ClienteRepository;
 import com.jamal.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -36,9 +34,10 @@ public class ClienteService {
 	}
 
 	public Cliente update(Cliente obj) {
-		// Valida se o ID da alteração de fato existe no banco
+		// Valida se o ID da alteração de fato existe no banco e retorna os dados
 		Cliente newObj = find(obj.getId());
 
+		// "Mergeia" informações já salvas no banco, com as passadas para atualização
 		updateData(newObj, obj);
 
 		// Mesma função do "insert", mas agora com um ID válido

@@ -33,11 +33,14 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		// Valida se o ID da alteração de fato existe no banco
-		find(obj.getId());
+		// Valida se o ID da alteração de fato existe no banco e retorna os dados
+		Categoria newObj = find(obj.getId());
+
+		// "Mergeia" informações já salvas no banco, com as passadas para atualização
+		updateData(newObj, obj);
 
 		// Mesma função do "insert", mas agora com um ID válido
-		return repo.save(obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
@@ -63,5 +66,9 @@ public class CategoriaService {
 
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 }
